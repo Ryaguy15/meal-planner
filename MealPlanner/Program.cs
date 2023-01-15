@@ -14,7 +14,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Configuration.AddJsonFile("./settings.json");
+
+if (builder.Environment.IsDevelopment())
+{
+    builder.Configuration.AddJsonFile("./settings.json");
+}
+else if (builder.Environment.IsProduction())
+{
+    builder.Configuration.AddEnvironmentVariables();
+}
+
 
 var app = builder.Build();
 
@@ -23,6 +32,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    
 }
 
 app.UseHttpsRedirection();
