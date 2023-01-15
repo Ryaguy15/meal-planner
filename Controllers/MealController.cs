@@ -25,23 +25,13 @@ namespace MealPlanner.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Meal>> SaveMeal([FromBody] MealViewModel mealToSave)
+        public async Task<ActionResult<Meal>> SaveMeal([FromBody] Meal mealToSave)
         {
 
-            var savedMeal = await _repo.SaveMeal(new Meal
-            {
-                Name = mealToSave.Name,
-                Ingredients = mealToSave.Ingredients.Select(i => new Ingredient { Name = i}).ToList()
-            }); 
+            var savedMeal = await _repo.SaveMeal(mealToSave);
             return new OkObjectResult(savedMeal);
         }
 
         
-    }
-
-    public class MealViewModel
-    {
-        public string Name { get; set; }
-        public List<string> Ingredients { get; set; }
     }
 }

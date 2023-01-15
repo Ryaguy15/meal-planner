@@ -16,7 +16,7 @@ namespace MealPlanner.DataSources
 
         public DbSet<Meal> Meals {get; set;}
         public DbSet<Ingredient> Ingredients {get; set;}
-        public DbSet<Plan> Plans { get; set; }
+       // public DbSet<Plan> Plans { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
@@ -43,11 +43,20 @@ namespace MealPlanner.DataSources
         {
             modelBuilder.Entity<Meal>(x => {
                 x.HasKey(m => m.Id);
+                x.HasMany<Ingredient>(m => m.Ingredients).WithMany();
+              
             });
-            modelBuilder.Entity<Ingredient>(x => {
+            modelBuilder.Entity<Ingredient>(x =>
+            {
                 x.HasKey(i => i.Id);
             });
-            modelBuilder.Entity<Plan>(x => x.HasKey(p => p.Id));
+
+            modelBuilder.Entity<Plan>(x =>
+            {
+                x.HasKey(p => p.Id);
+                x.HasMany<Meal>(p => p.Meals).WithMany();
+            });
+        
         }
     }
 

@@ -5,7 +5,7 @@ namespace MealPlanner.Models
 	{
 		public int Id { get; set; }
 		public int Length { get; set; }
-		public virtual ICollection<Meal> Meals { get; set; }
+		public ICollection<Meal> Meals { get; set; }
 	}
 }
 
