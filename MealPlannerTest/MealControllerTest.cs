@@ -1,8 +1,9 @@
 ﻿using Moq;
-using MealPlanner.Respositories.Interfaces;
+
 using MealPlanner.Controllers;
 using MealPlanner.Models;
 using Microsoft.AspNetCore.Mvc;
+using MealPlanner.Repositories.Interfaces;
 
 namespace MealPlannerTest;
 
@@ -26,7 +27,7 @@ public class MealControllerTest
             Name = "UT"
         };
 
-        repo.Setup(r => r.GetMeals()).ReturnsAsync(new List<Meal> { fakeMeal });
+        repo.Setup(r => r.GetItems()).ReturnsAsync(new List<Meal> { fakeMeal });
 
         var result = (await controller.GetMeals()).Result as OkObjectResult;
         var mealsGotten = result.Value as IEnumerable<Meal>;
