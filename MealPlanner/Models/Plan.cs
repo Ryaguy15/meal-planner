@@ -6,6 +6,7 @@ namespace MealPlanner.Models
 		public int Id { get; set; }
 		public int Length { get; set; }
 		public ICollection<Meal> Meals { get; set; }
+		public DateTime StartDate { get; set; }
 	}
 }
 

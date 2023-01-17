@@ -1,6 +1,7 @@
 using MealPlanner.DataSources;
+using MealPlanner.Repositories.Interfaces;
 using MealPlanner.Respositories;
-using MealPlanner.Respositories.Interfaces;
+
 
 var builder = WebApplication.CreateBuilder(args);
 

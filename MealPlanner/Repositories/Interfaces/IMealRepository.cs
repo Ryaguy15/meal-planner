@@ -1,10 +1,9 @@
 using MealPlanner.Models;
 
-namespace MealPlanner.Respositories.Interfaces 
+namespace MealPlanner.Repositories.Interfaces
 {
-    public interface IMealRepository 
+    public interface IMealRepository : IRepository<Meal>
     {
-        Task<IEnumerable<Meal>> GetMeals();
-        Task<Meal> SaveMeal(Meal meal);
+        
     }
 }
