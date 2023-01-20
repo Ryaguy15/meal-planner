@@ -27,7 +27,7 @@ namespace MealPlanner.Controllers
             var today = DateTime.UtcNow;
             var noPlans = await _planRepo.Count() < 1;
             if (noPlans) return new NoContentResult();
-            var lastedPlan = await _planRepo.GetItem((a, b) => a.StartDate.CompareTo(b));
+            var lastedPlan = await _planRepo.GetTopItemFromSort((a, b) => a.StartDate.CompareTo(b));
 
             var lastDayInPlan = lastedPlan.StartDate.AddDays(lastedPlan.Length);
             if (lastDayInPlan.CompareTo(today) == -1) return new NotFoundObjectResult("No plans active today");
@@ -38,7 +38,7 @@ namespace MealPlanner.Controllers
         public async Task<ActionResult<Plan>> SavePlan([FromBody] int length)
         {
             var yesterday = DateTime.UtcNow.AddDays(-1);
-            var planActiveOnYesterday = await _planRepo.GetItem((a, b) => a.StartDate.CompareTo(b));
+            var planActiveOnYesterday = await _planRepo.GetTopItemFromSort((a, b) => a.StartDate.CompareTo(b));
 
             var plan = await _service.CreateNewMealPlan(length, planActiveOnYesterday);
 

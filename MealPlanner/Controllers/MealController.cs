@@ -24,6 +24,13 @@ namespace MealPlanner.Controllers
             
         }
 
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<Meal>> GetMealById([FromRoute] int id)
+        {
+            return Ok(await _repo.GetItemByUniqueValue(meal => meal.Id == id));
+        }
+
+
         [HttpPost]
         public async Task<ActionResult<Meal>> SaveMeal([FromBody] Meal mealToSave)
         {

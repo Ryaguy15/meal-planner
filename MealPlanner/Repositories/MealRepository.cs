@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MealPlanner.Respositories
 {
-    public class MealRepository: IMealRepository
+    public class MealRepository : IMealRepository
     {
         public readonly MealPlanningContext _dbContext;
 
@@ -19,7 +19,7 @@ namespace MealPlanner.Respositories
             return await _dbContext.Meals.CountAsync();
         }
 
-        public async  Task<Meal> GetItem(Func<Meal, Meal, int> filter, bool getBottom = false)
+        public async Task<Meal> GetTopItemFromSort(Func<Meal, Meal, int> filter, bool getBottom = false)
         {
             var comparer = Comparer<Meal>.Create((a, b) => filter(a, b));
             var orderedMeals = _dbContext.Meals.Order(comparer);
@@ -37,10 +37,11 @@ namespace MealPlanner.Respositories
 
         public async Task<IEnumerable<Meal>> GetItems(Func<Meal, bool> filter)
         {
+            //TODO This won't work. Linq can't covert this to sql internally
             return await _dbContext.Meals.Where(m => filter(m)).ToListAsync();
         }
 
-      
+
         public async Task<Meal> SaveItem(Meal itemToSave)
         {
             var savedMeal = (await _dbContext.AddAsync(itemToSave)).Entity;
@@ -50,6 +51,12 @@ namespace MealPlanner.Respositories
             return savedMeal;
         }
 
-       
+        public async Task<Meal?> GetItemByUniqueValue(Func<Meal, bool> filter)
+        {
+            return (await _dbContext.Meals.Include(m => m.Ingredients).ToListAsync())
+                .Where(m => filter(m))
+                .FirstOrDefault();
+
+        }
     }
 }
