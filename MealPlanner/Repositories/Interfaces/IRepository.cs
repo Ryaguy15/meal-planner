@@ -9,6 +9,7 @@ namespace MealPlanner.Repositories.Interfaces
 		Task<T?> GetItemByUniqueValue(Func<T, bool> filter);
 		Task<T> GetTopItemFromSort(Func<T, T, int> filter, bool getBottom = false);
 		Task<T> SaveItem(T itemToSave);
+		Task<T> UpdateItem(T updatedItem);
 	}
 }
 

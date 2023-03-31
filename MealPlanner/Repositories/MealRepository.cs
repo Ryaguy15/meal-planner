@@ -58,5 +58,19 @@ namespace MealPlanner.Respositories
                 .FirstOrDefault();
 
         }
+
+        public async Task<Meal> UpdateItem(Meal updatedItem)
+        {
+            var mealToUpdate = await _dbContext.Meals.FindAsync(updatedItem.Id);
+            if (mealToUpdate != null)
+            {
+                _dbContext.Meals.Entry(mealToUpdate).CurrentValues.SetValues(updatedItem);
+                await _dbContext.SaveChangesAsync();
+                return updatedItem;
+            }
+
+            throw new KeyNotFoundException($"Could not find meal with id: {updatedItem.Id}");
+
+        }
     }
 }

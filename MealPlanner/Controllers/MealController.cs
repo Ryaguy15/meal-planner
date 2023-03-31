@@ -39,6 +39,25 @@ namespace MealPlanner.Controllers
             return new OkObjectResult(savedMeal);
         }
 
+        [HttpPut]
+        public async Task<ActionResult<Meal>> UpdateMeal([FromBody] Meal mealToUpdate)
+        {
+            if (mealToUpdate.Id == null)
+            {
+                return new UnprocessableEntityObjectResult("Can't update meal with null id");
+            }
+
+            try
+            {
+                return await _repo.UpdateItem(mealToUpdate);
+            }
+            catch (KeyNotFoundException notFound)
+            {
+                return NotFound(notFound.Message);
+            }
+
+        }
+
         
     }
 }
